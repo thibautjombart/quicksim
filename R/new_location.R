@@ -31,12 +31,12 @@
 
 new_location <- function(location = NULL, ..., config = new_config(...)) {
   if (is.null(x)) {
-    out <- c(runif(1, min = config$x_min, max = config$x_max),
-             runif(1, min = config$y_min, max = config$y_max))
+    out <- c(stats::runif(1, min = config$x_min, max = config$x_max),
+             stats::runif(1, min = config$y_min, max = config$y_max))
   } else {
-    out <- rnorm(length(location),
-                 mean = location,
-                 sd = config$sd_spatial)
+    out <- stats::rnorm(length(location),
+                        mean = location,
+                        sd = config$sd_spatial)
   }
   return(out)
 }

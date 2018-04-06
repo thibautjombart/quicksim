@@ -62,8 +62,10 @@ new_dna <- function(dna = NULL, generation_time = NULL, ..., config = new_config
         
         ## generate new mutations
         lambda <- generation_time * config$mutation_rate * config$genome_length
-        n_mutations <- rpois(1, lambda)
-        new_mutations <- runif(n_mutations, min = 1, max = config$genome_length)
+        n_mutations <- stats::rpois(1, lambda)
+      new_mutations <- stats::runif(n_mutations,
+                                    min = 1,
+                                    max = config$genome_length)
         new_mutations <- as.integer(round(new_mutations))
         out <- c(dna, new_mutations)
 

@@ -45,9 +45,9 @@ dist_dna_pair(1:3, 1:10)
 
 dist_dna <- function(x) {
     N <- length(x)
-    all_pairs <- combn(seq_len(N), 2L, simplify = FALSE)
+    all_pairs <- utils::combn(seq_len(N), 2L, simplify = FALSE)
     n_pairs <- ncol(all_pairs)
-    out <- dist(seq_len(N))
+    out <- stats::dist(seq_len(N))
     out[] <- NA_integer_
 
     for (i in seq_along(all_pairs)) {
