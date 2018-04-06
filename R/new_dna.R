@@ -1,21 +1,56 @@
-## GENETIC DATA
+#' Create the location of a new case
+#'
+#' This function creates the DNA sequence for a new case, with or without a known
+#' infector. If the infector is missing (NULL, default), the case is imported according to
+#' parameters in \code{config}.
+#'
+#' @export
+#'
+#' @param dna An optional location of the infector; if provided, it must be
+#'     a list with the following slots: 'location', 'dna'
+#'
+#' @param generation_time The number of days separating the dates of infection
+#'   of the infector, and the infectee. Only needed if the infector is provided.
+#'
+#' @param ... further arguments passed to \code{new_config}
+#'
+#' @details We consider that all markers are biallelic, and store only
+#'   mutations.
+#'
+#' @seealso \code{\link{dist_dna}} to compute pairwise genetic distances from
+#'   vectors of mutations.
+#'
+#' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
+#'
+#' @examples
+#'
+#' ## without initial location
+#' x_dna <- new_dna()
+#' x_dna
+#'
+#' ## drift from this sequence, different nb of generations
+#' new_dna(x_dna, 1L) # 1 generation
+#' new_dna(x_dna, 12L) # 12 generations
+#'
+#' ## 100 generations, other genetic params
+#' new_dna(x_dna, 100, mutation_rate = 1e-6, genome_length = 2e6)
+#'
+#' ## illustrate reverse mutations
+#' my_config <- new_config(mutation_rate = 0.1, genome_length = 10)
+#' x <- integer(0)
+#' set_seed(1)
+#' x <- new_dna(x, 5); x
+#' x <- new_dna(x, 5); x
+#' x <- new_dna(x, 5); x
+#' x <- new_dna(x, 5); x
+#' x <- new_dna(x, 5); x
 
-## We consider that all markers are biallelic, and store only mutations.
 
-## x: ancestor's 'DNA', stored as a vector of mutations
-
-## generation_time: the number of days between the infection of x and the new
-## case
-
-## mu: mutation rate (per site and per day)
-
-## genome_length: total length of the genome
-
-new_dna <- function(x = NULL, generation_time = NULL, ..., config = new_config(...)) {
+new_dna <- function(dna = NULL, generation_time = NULL, ..., config = new_config(...)) {
 
     ## generate new lineage
     
-    if (is.null(x)) {
+    if (is.null(dna)) {
         out <- new_dna(integer(0),
                      generation_time = config$separation_lineages,
                      config = config)
@@ -30,7 +65,7 @@ new_dna <- function(x = NULL, generation_time = NULL, ..., config = new_config(.
         n_mutations <- rpois(1, lambda)
         new_mutations <- runif(n_mutations, min = 1, max = config$genome_length)
         new_mutations <- as.integer(round(new_mutations))
-        out <- c(x, new_mutations)
+        out <- c(dna, new_mutations)
 
         ## cleanup: remove reverse mutations
         reverse_mutations <- as.integer(names(which(table(out) %% 2 == 0L)))
@@ -40,14 +75,3 @@ new_dna <- function(x = NULL, generation_time = NULL, ..., config = new_config(.
     return(out)
 }
 
-
-
-
-
-## examples
-
-new_dna(1:10, 10, 0, 10) # no mutation
-
-set.seed(1)
-new_dna(1:10, 10, 1, 10) # reverse mutations delete old ones
-## [1]  3  4  5  6  8 10
