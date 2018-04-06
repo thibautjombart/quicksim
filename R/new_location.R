@@ -11,6 +11,8 @@
 #'
 #' @param ... further arguments passed to \code{\link{new_config}}
 #'
+#' @param config optionally, a config returned by \code{\link{new_config}}
+#'
 #' @details This function uses a Normal spatial kernel for all spatial
 #'     dimensions, with a single parameter 'sd_spatial'.
 #'

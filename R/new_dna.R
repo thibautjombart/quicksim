@@ -14,6 +14,8 @@
 #'
 #' @param ... further arguments passed to \code{\link{new_config}}
 #'
+#' @param config optionally, a config returned by \code{\link{new_config}}
+#'
 #' @details We consider that all markers are biallelic, and store only
 #'   mutations.
 #'
