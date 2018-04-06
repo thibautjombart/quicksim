@@ -63,7 +63,9 @@ plot(graph.data.frame(tree), vertex.color = "#e0ccff")
 
 ```
 
-We load the package, examine the default settings, and generate an index case:
+We load the package, examine the default settings, make custom config, and
+generate an index case:
+
 ```{r quicksim}
 library(quicksim)
 
@@ -73,10 +75,10 @@ new_config()
 ## use custom config
 conf <- new_config(genome_length = 1e4,
                    mutation_rate = 1e-4,
-                   separation_lineages = 0)
+                   separation_lineages = 10)
 
 ## create index case
-index <- new_case()
+index <- new_case(config = conf)
 index
 
 ```
@@ -94,7 +96,8 @@ for (i in seq_len(nrow(tree))) {
   infector <- tree[i, 1]
   infectee <- tree[i, 2]
   cases[[infectee]] <- new_case(cases[[infector]],
-                                date = infection_dates[infectee])
+                                date = infection_dates[infectee],
+                                config = conf)
 }
 
 cases
