@@ -42,19 +42,31 @@ new_case <- function(infector = NULL, date = NULL,
                      ..., config = new_config(...)) {
   out <- list()
 
-  if (is.null(date)) {
-    if (is.null(infector)) {
+  if (is.null(infector)) {
+    if (is.null(date)) {
       date <- 0L
-    } else {
+    }
+    
+    out$date <- date
+    out$location <- new_location(NULL, config = config)
+    out$dna <- new_dna(NULL, config = config)
+    
+  } else {
+
+    if (is.null(date)) {
       stop("date of infection must be provided")
     }
-  }
 
-  out$date <- date
-  
-  out$location <- new_location(infector$location, config = config)
-  
-  out$dna <- new_dna(infector$dna, config = config)
-  
+    out$date <- date
+    delay <- date - infector$date
+
+    if (delay < 1L) {
+      stop("Generation time < 1")
+    }
+    
+    out$dna <- new_dna(infector$dna, delay, config = config)
+    out$location <- new_location(infector$location, config = config)
+    
+  }
   return(out)
 }

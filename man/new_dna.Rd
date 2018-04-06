@@ -42,7 +42,7 @@ new_dna(x_dna, 100, mutation_rate = 1e-6, genome_length = 2e6)
 ## illustrate reverse mutations
 my_config <- new_config(mutation_rate = 0.1, genome_length = 10)
 x <- integer(0)
-set_seed(1)
+set.seed(1)
 x <- new_dna(x, 5); x
 x <- new_dna(x, 5); x
 x <- new_dna(x, 5); x

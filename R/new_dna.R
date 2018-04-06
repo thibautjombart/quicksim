@@ -40,7 +40,7 @@
 #' ## illustrate reverse mutations
 #' my_config <- new_config(mutation_rate = 0.1, genome_length = 10)
 #' x <- integer(0)
-#' set_seed(1)
+#' set.seed(1)
 #' x <- new_dna(x, 5); x
 #' x <- new_dna(x, 5); x
 #' x <- new_dna(x, 5); x
@@ -51,32 +51,32 @@
 new_dna <- function(dna = NULL, generation_time = NULL,
                     ..., config = new_config(...)) {
 
-    ## generate new lineage
-    
-    if (is.null(dna)) {
-        out <- new_dna(integer(0),
-                     generation_time = config$separation_lineages,
-                     config = config)
-    } else {
+  ## generate new lineage
+  
+  if (is.null(dna)) {
+    out <- new_dna(integer(0),
+                   generation_time = config$separation_lineages,
+                   config = config)
+  } else {
 
-        if (is.null(generation_time)) {
-            stop("generation_time must be specified (currently NULL)")
-        }
-        
-        ## generate new mutations
-        lambda <- generation_time * config$mutation_rate * config$genome_length
-        n_mutations <- stats::rpois(1, lambda)
-      new_mutations <- stats::runif(n_mutations,
-                                    min = 1,
-                                    max = config$genome_length)
-        new_mutations <- as.integer(round(new_mutations))
-        out <- c(dna, new_mutations)
-
-        ## cleanup: remove reverse mutations
-        reverse_mutations <- as.integer(names(which(table(out) %% 2 == 0L)))
-        out <- setdiff(out, reverse_mutations)
+    if (is.null(generation_time)) {
+      stop("generation_time must be specified (currently NULL)")
     }
     
-    return(out)
+    ## generate new mutations
+    lambda <- generation_time * config$mutation_rate * config$genome_length
+    n_mutations <- stats::rpois(1, lambda)
+    new_mutations <- stats::runif(n_mutations,
+                                  min = 1,
+                                  max = config$genome_length)
+    new_mutations <- as.integer(round(new_mutations))
+    out <- c(dna, new_mutations)
+
+    ## cleanup: remove reverse mutations
+    reverse_mutations <- as.integer(names(which(table(out) %% 2 == 0L)))
+    out <- setdiff(out, reverse_mutations)
+  }
+  
+  return(out)
 }
 

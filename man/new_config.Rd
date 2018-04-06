@@ -30,7 +30,7 @@ Simulation settings include:
 \examples{
 
 new_config()
-new_config(genome_length = 100, xmax = 10)
+new_config(genome_length = 100, x_max = 10)
 
 }
 \author{

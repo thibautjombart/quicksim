@@ -28,7 +28,7 @@
 #' @examples
 #'
 #' new_config()
-#' new_config(genome_length = 100, xmax = 10)
+#' new_config(genome_length = 100, x_max = 10)
 #' 
 new_config <- function(...) {
     defaults <- list(x_min = 0, # min x, spatial coords
