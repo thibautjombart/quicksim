@@ -12,7 +12,7 @@
 #' @param generation_time The number of days separating the dates of infection
 #'   of the infector, and the infectee. Only needed if the infector is provided.
 #'
-#' @param ... further arguments passed to \code{new_config}
+#' @param ... further arguments passed to \code{\link{new_config}}
 #'
 #' @details We consider that all markers are biallelic, and store only
 #'   mutations.

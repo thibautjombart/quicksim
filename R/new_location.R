@@ -9,7 +9,7 @@
 #' @param location An optional location of the infector; if provided, it must be
 #'     a list with the following slots: 'location', 'dna'
 #'
-#' @param ... further arguments passed to \code{new_config}
+#' @param ... further arguments passed to \code{\link{new_config}}
 #'
 #' @details This function uses a Normal spatial kernel for all spatial
 #'     dimensions, with a single parameter 'sd_spatial'.
