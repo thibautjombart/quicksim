@@ -68,5 +68,8 @@ new_case <- function(infector = NULL, date = NULL,
     out$location <- new_location(infector$location, config = config)
     
   }
+
+  class(out) <- c("case", "list")
+  attr(out, "config") <- config
   return(out)
 }

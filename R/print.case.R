@@ -5,13 +5,13 @@
 print.case <- function(x, ...) {
   cat("<case object>\n")
 
-  cat("\ndate of infection ($date): ")
+  cat("\n/// date of infection ($date): \n")
   print(x$date)
 
-  cat("\nplace of infection ($location): ")
+  cat("\n/// place of infection ($location): \n")
   print(x$location)
 
-  cat("\nDNA sequence mutations ($dna): ")
+  cat("\n/// DNA sequence mutations ($dna): \n")
   print(x$dna)
   
   invisible(x)
