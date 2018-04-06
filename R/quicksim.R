@@ -13,11 +13,11 @@
 #'
 
 new_case <- function(infector = NULL, ..., config = new_config(...)) {
-    out <- list()
-    
-    out$location <- new_location(infector$location, config = config)
-
-    out$dna <- new_dna(infector$dna, config = config)
-
-    return(out)
+  out <- list()
+  
+  out$location <- new_location(infector$location, config = config)
+  
+  out$dna <- new_dna(infector$dna, config = config)
+  
+  return(out)
 }
