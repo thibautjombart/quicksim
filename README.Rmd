@@ -115,13 +115,16 @@ locations <- matrix(unlist(lapply(cases, function(e) e$location)),
 ## genetic distances
 D_dna <- dist_dna(dna)
 D_dna
-plot(nj(D_dna), "unrooted")
+
+plot(nj(D_dna), "unrooted", main = "Unrooted NJ tree, Hamming distances",
+     show.tip.label = FALSE)
+
+tiplabels(frame = "circ", col = "#f9ecf2", bg = "#602040", cex = 1.5)
 
 ## spatial distances
 D_geo <- dist(locations)
 D_geo
 plot(locations, pch = paste(1:6), xlab = "x", ylab = "y", cex = 2)
-
 
 ```
 
