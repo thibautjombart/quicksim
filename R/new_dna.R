@@ -48,7 +48,8 @@
 #' x <- new_dna(x, 5); x
 
 
-new_dna <- function(dna = NULL, generation_time = NULL, ..., config = new_config(...)) {
+new_dna <- function(dna = NULL, generation_time = NULL,
+                    ..., config = new_config(...)) {
 
     ## generate new lineage
     

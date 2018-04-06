@@ -32,7 +32,7 @@
 #' points(new_locs_sd5, col = "red")
 
 new_location <- function(location = NULL, ..., config = new_config(...)) {
-  if (is.null(x)) {
+  if (is.null(location)) {
     out <- c(stats::runif(1, min = config$x_min, max = config$x_max),
              stats::runif(1, min = config$y_min, max = config$y_max))
   } else {

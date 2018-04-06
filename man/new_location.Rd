@@ -11,6 +11,8 @@ new_location(location = NULL, ..., config = new_config(...))
 a list with the following slots: 'location', 'dna'}
 
 \item{...}{further arguments passed to \code{\link{new_config}}}
+
+\item{config}{optionally, a config returned by \code{\link{new_config}}}
 }
 \description{
 This function creates the location of a new case, with or without a known

@@ -14,6 +14,8 @@ a list with the following slots: 'location', 'dna'}
 of the infector, and the infectee. Only needed if the infector is provided.}
 
 \item{...}{further arguments passed to \code{\link{new_config}}}
+
+\item{config}{optionally, a config returned by \code{\link{new_config}}}
 }
 \description{
 This function creates the DNA sequence for a new case, with or without a known
