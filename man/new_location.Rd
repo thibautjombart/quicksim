@@ -35,6 +35,16 @@ new_locs_sd5 <- t(replicate(100, new_location(x_loc, 5)))
 plot(matrix(x_loc, ncol = 2), xlim = c(-20, 20), ylim = c(-20, 20), pch = "x")
 points(new_locs_sd1, col = "blue")
 points(new_locs_sd5, col = "red")
+
+## using a custom spatial kernel
+custom_kernel <- function(x) {
+  out <- x + runif(length(x), min = -2, max = 20)
+  out
+}
+
+new_location(c(0,0)) # default kernel
+new_location(c(0,0), spatial_kernel = custom_kernel) # custom kernel
+
 }
 \author{
 Thibaut Jombart \email{thibautjombart@gmail.com}

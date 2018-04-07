@@ -34,20 +34,26 @@
 #' new_config(genome_length = 100, x_max = 10)
 #' 
 new_config <- function(...) {
-    defaults <- list(x_min = 0, # min x, spatial coords
-                     x_max = 100, # max x, spatial coords
-                     y_min = 0, # min y, spatial coords
-                     y_max = 100, # max y, spatial coords
-                     spatial_kernel = kernel_normal, # function: spatial kernel
-                     sd_spatial = 1, # sd for default spatial kernel
-                     genome_length = 3e4, # genome length
-                     mutation_rate = 1e-5, # mutation rate
-                     separation_lineages = 365 # nb days to ancestral lineage
-                     )
+  defaults <- list(x_min = 0, # min x, spatial coords
+                   x_max = 100, # max x, spatial coords
+                   y_min = 0, # min y, spatial coords
+                   y_max = 100, # max y, spatial coords
+                   spatial_kernel = NULL, # spatial kernel; defined later
+                   sd_spatial = 1, # sd for default spatial kernel
+                   genome_length = 3e4, # genome length
+                   mutation_rate = 1e-5, # mutation rate
+                   separation_lineages = 365 # nb days to ancestral lineage
+                   )
     
-    args <- list(...)
-    
-    modify_defaults(defaults, args)    
+  args <- list(...)
+  
+  out <- modify_defaults(defaults, args)
+
+  if (is.null(args$spatial_kernel)) {
+    out$spatial_kernel <- kernel_normal(out$sd_spatial)
+  }
+
+  out
 }
 
 
