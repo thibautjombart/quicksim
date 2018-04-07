@@ -19,8 +19,11 @@ Simulation settings include:
   \item \code{x_max}: upper bound of spatial coordinates (x-axis)
   \item \code{y_min}: lower bound of spatial coordinates (y-axis)
   \item \code{y_max}: upper bound of spatial coordinates (y-axis)
-  \item \code{sd_spatial}: standard deviation of the Normal kernel use in
-    spatial dispersion
+  \item \code{sd_spatial}: standard deviation for the spatial dispersal, only
+  used for the default spatial kernel
+  \item \code{spatial_kernel}: a function of 'x' (a vector of starting
+    coordinates) implementing a kernel for spatial dispersion; defaults to a
+    Normal distribution with standard deviation 1
   \item \code{genome_length}: number of nucleotides in the pathogen genome
   \item \code{mutation_rate}: per nucleotide and day
   \item \code{separation_lineages}: number of days to ancestral lineage for

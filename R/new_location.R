@@ -36,9 +36,7 @@ new_location <- function(location = NULL, ..., config = new_config(...)) {
     out <- c(stats::runif(1, min = config$x_min, max = config$x_max),
              stats::runif(1, min = config$y_min, max = config$y_max))
   } else {
-    out <- stats::rnorm(length(location),
-                        mean = location,
-                        sd = config$sd_spatial)
+    out <- config$spatial_kernel(location, sd = config$sd_spatial)
   }
   return(out)
 }
