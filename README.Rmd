@@ -170,6 +170,9 @@ for (i in seq_len(nrow(tree))) {
 
 
 ## look at the new spatial distribution
+locations <- matrix(unlist(lapply(cases, function(e) e$location)),
+                    ncol = 2, byrow = TRUE)
+
 plot(locations, pch = paste(1:6), xlab = "x", ylab = "y", cex = 2)
 
 ```
