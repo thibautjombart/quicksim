@@ -40,6 +40,8 @@ The main features of the package include:
 
 # Demo
 
+## A basic example
+
 We start from the following transmission tree:
 
 ```r
@@ -83,6 +85,11 @@ new_config()
 #> $y_max
 #> [1] 100
 #> 
+#> $spatial_kernel
+#> function (x) 
+#> stats::rnorm(length(x), mean = x, sd = sd)
+#> <environment: 0x4806c30>
+#> 
 #> $sd_spatial
 #> [1] 1
 #> 
@@ -109,10 +116,10 @@ index
 #> [1] 0
 #> 
 #> /// place of infection ($location): 
-#> [1]  4.196837 56.105862
+#> [1] 15.01976 24.77853
 #> 
 #> /// DNA sequence mutations ($dna): 
-#> [1] 8486 1583 2073 9112 4001  380
+#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547
 ```
 
 
@@ -141,10 +148,10 @@ cases
 #> [1] 0
 #> 
 #> /// place of infection ($location): 
-#> [1]  4.196837 56.105862
+#> [1] 15.01976 24.77853
 #> 
 #> /// DNA sequence mutations ($dna): 
-#> [1] 8486 1583 2073 9112 4001  380
+#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547
 #> 
 #> [[2]]
 #> <case object>
@@ -153,10 +160,10 @@ cases
 #> [1] 2
 #> 
 #> /// place of infection ($location): 
-#> [1]  4.38048 55.27023
+#> [1] 15.2034 23.9429
 #> 
 #> /// DNA sequence mutations ($dna): 
-#> [1] 8486 1583 2073 9112 4001  380 3722
+#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722
 #> 
 #> [[3]]
 #> <case object>
@@ -165,10 +172,11 @@ cases
 #> [1] 5
 #> 
 #> /// place of infection ($location): 
-#> [1]  4.08576 55.26447
+#> [1] 14.90868 23.93714
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 8486 1583 2073 9112 4001  380 3722 6608 6292  619 2061 1766 6871
+#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722 6608 6292  619
+#> [15] 2061 1766 6871
 #> 
 #> [[4]]
 #> <case object>
@@ -177,11 +185,11 @@ cases
 #> [1] 6
 #> 
 #> /// place of infection ($location): 
-#> [1]  4.475603 54.643225
+#> [1] 15.29852 23.31589
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 8486 1583 2073 9112 4001  380 3722 6608 6292  619 2061 1766 6871 3801
-#> [15] 7775 9347 2122
+#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722 6608 6292  619
+#> [15] 2061 1766 6871 3801 7775 9347 2122
 #> 
 #> [[5]]
 #> <case object>
@@ -190,10 +198,10 @@ cases
 #> [1] 7
 #> 
 #> /// place of infection ($location): 
-#> [1]  5.505411 55.225299
+#> [1] 16.32833 23.89797
 #> 
 #> /// DNA sequence mutations ($dna): 
-#> [1] 8486 1583 2073 9112 4001  380 3722 3824
+#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722 3824
 #> 
 #> [[6]]
 #> <case object>
@@ -202,10 +210,11 @@ cases
 #> [1] 10
 #> 
 #> /// place of infection ($location): 
-#> [1]  6.326633 55.819201
+#> [1] 17.14955 24.49187
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 8486 1583 2073 9112 4001  380 3722 3824 1863 8274 6685
+#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722 3824 1863 8274
+#> [15] 6685
 ```
 
 Some further analyses
@@ -252,6 +261,50 @@ plot(locations, pch = paste(1:6), xlab = "x", ylab = "y", cex = 2)
 ![plot of chunk analyses](figs/analyses-2.png)
 
 
+## Using custom spatial kernel
+
+Customised spatial kernels can be specified as part of the config through the
+argument `spatial_kernel`. The behaviour of `new_location` is as follows:
+
+1. by default, a Normal kernel with standard deviation 1 is used
+2. if provided, `sd_spatial` is used for the standard deviation of the Normal kernel
+3. if provided, the alternative spatial kernel `spatial_kernel` is used instead,
+   in which case `sd_spatial` is ignored.
+
+If provided, the argument `spatial_kernel` should be a function of `x`, a vector
+of spatial coordinates, and return a similarly sized vector of new coordinates.
+
+We can repeat the previous example with a new spatial kernel:
+
+
+```r
+## new custom config
+custom_kernel <- function(x) {
+  out <- x + runif(length(x), min = 1, max = 3)
+  out
+}
+
+new_conf <- new_config(genome_length = 1e4,
+                       mutation_rate = 1e-4,
+                       separation_lineages = 10,
+                       spatial_kernel = custom_kernel)
+
+set.seed(1)
+
+for (i in seq_len(nrow(tree))) {
+  infector <- tree[i, 1]
+  infectee <- tree[i, 2]
+  cases[[infectee]] <- new_case(cases[[infector]],
+                                date = infection_dates[infectee],
+                                config = new_conf)
+}
+
+
+## look at the new spatial distribution
+plot(locations, pch = paste(1:6), xlab = "x", ylab = "y", cex = 2)
+```
+
+![plot of chunk custom_kernel](figs/custom_kernel-1.png)
 
 
 # Resources
