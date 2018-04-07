@@ -59,6 +59,14 @@ tree
 infection_dates <- c(0, 2, 5, 6, 7, 10)
 
 library(igraph)
+#> 
+#> Attaching package: 'igraph'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     decompose, spectrum
+#> The following object is masked from 'package:base':
+#> 
+#>     union
 plot(graph.data.frame(tree), vertex.color = "#e0ccff")
 ```
 
@@ -88,7 +96,7 @@ new_config()
 #> $spatial_kernel
 #> function (x) 
 #> stats::rnorm(length(x), mean = x, sd = sd)
-#> <environment: 0x6049d98>
+#> <environment: 0x31b8a90>
 #> 
 #> $sd_spatial
 #> [1] 1
@@ -116,10 +124,10 @@ index
 #> [1] 0
 #> 
 #> /// place of infection ($location): 
-#> [1] 15.01976 24.77853
+#> [1] 96.45478 32.31864
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547
+#> [1] 9703 9129 9428 6714 6923 1048 6664 5071 1029
 ```
 
 
@@ -148,10 +156,10 @@ cases
 #> [1] 0
 #> 
 #> /// place of infection ($location): 
-#> [1] 15.01976 24.77853
+#> [1] 96.45478 32.31864
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547
+#> [1] 9703 9129 9428 6714 6923 1048 6664 5071 1029
 #> 
 #> [[2]]
 #> <case object>
@@ -160,10 +168,10 @@ cases
 #> [1] 2
 #> 
 #> /// place of infection ($location): 
-#> [1] 15.2034 23.9429
+#> [1] 96.63842 31.48301
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722
+#>  [1] 9703 9129 9428 6714 6923 1048 6664 5071 1029 3722
 #> 
 #> [[3]]
 #> <case object>
@@ -172,11 +180,11 @@ cases
 #> [1] 5
 #> 
 #> /// place of infection ($location): 
-#> [1] 14.90868 23.93714
+#> [1] 96.34370 31.47725
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722 6608 6292  619
-#> [15] 2061 1766 6871
+#>  [1] 9703 9129 9428 6714 6923 1048 6664 5071 1029 3722 6608 6292  619 2061
+#> [15] 1766 6871
 #> 
 #> [[4]]
 #> <case object>
@@ -185,11 +193,11 @@ cases
 #> [1] 6
 #> 
 #> /// place of infection ($location): 
-#> [1] 15.29852 23.31589
+#> [1] 96.73355 30.85601
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722 6608 6292  619
-#> [15] 2061 1766 6871 3801 7775 9347 2122
+#>  [1] 9703 9129 9428 6714 6923 1048 6664 5071 1029 3722 6608 6292  619 2061
+#> [15] 1766 6871 3801 7775 9347 2122
 #> 
 #> [[5]]
 #> <case object>
@@ -198,10 +206,10 @@ cases
 #> [1] 7
 #> 
 #> /// place of infection ($location): 
-#> [1] 16.32833 23.89797
+#> [1] 97.76335 31.43808
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722 3824
+#>  [1] 9703 9129 9428 6714 6923 1048 6664 5071 1029 3722 3824
 #> 
 #> [[6]]
 #> <case object>
@@ -210,17 +218,21 @@ cases
 #> [1] 10
 #> 
 #> /// place of infection ($location): 
-#> [1] 17.14955 24.49187
+#> [1] 98.58458 32.03198
 #> 
 #> /// DNA sequence mutations ($dna): 
-#>  [1] 9387 5661 8326 7106  335 6542 5529 3490 1508 4547 3722 3824 1863 8274
-#> [15] 6685
+#>  [1] 9703 9129 9428 6714 6923 1048 6664 5071 1029 3722 3824 1863 8274 6685
 ```
 
 Some further analyses
 
 ```r
 library(ape)
+#> 
+#> Attaching package: 'ape'
+#> The following objects are masked from 'package:igraph':
+#> 
+#>     edges, mst, ring
 
 dna <- lapply(cases, function(e) e$dna)
 locations <- matrix(unlist(lapply(cases, function(e) e$location)),
